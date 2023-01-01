@@ -1,0 +1,118 @@
+										OpenMP Analysis Report
+Author: Dinyar Islam
+Class: ECE4122
+Last Date Modified: 10 October 2022
+
+Description: Lab 2 Problem 2
+
+When running this program with a smaller pair of matrices (approx. 100 x 100 or less), there was comparitively little difference in the execution times between OpenMP and non-OpenMP versions of the program i.e., when the OpenMp flag was used to compile versus when it was not respectively. The OpenMP seemed to have consistently slightly slower runtimes for smaller matrices than the non-OpenMP code. This would make sense as the OpenMP is trying to utilize more resources (cores, threads, etc.) for parallel operation, however for small matrices this proves to be not only virtually ineffective but also a perfomance deterrer with all three timing metrics indicating a larger value for the time required. The O3 optimization was used in all cases for compiling as per instructor request. 
+
+It was obseravable that the user+sys time for all matrices was less for the non-OpenMP as compared to the OpenMP versions. Some of the test cases recorded have been included below for comparison. For reference, the format of the matrices in the test cases are m x n x p as per the matrix generator, where dimensions for the first matrix (matrix A) is m x n  and the second matrix (matrix B) is n x p.
+
+For smaller matrices, the non-OpenMP code seems to perform better across all three timing measures.
+
+In the case of 4 x 2 x 3:
+Non-OMP: 
+real    0m0.018s
+user    0m0.003s
+sys     0m0.000s
+
+OMP:
+real    0m0.079s
+user    0m0.117s
+sys     0m0.025s
+
+In the case of 10 x 10 x 10:
+Non-OMP: 
+real    0m0.059s
+user    0m0.002s
+sys     0m0.002s
+
+OMP:
+real    0m0.236s
+user    0m0.180s
+sys     0m0.025s
+
+In the case of 50 x 50 x 50:
+Non-OMP: 
+real    0m0.237s
+user    0m0.003s
+sys     0m0.005s
+
+OMP:
+real    0m0.268s
+user    0m0.200s
+sys     0m0.034s
+
+In the case of 100 x 100 x 100:
+Non-OMP: 
+real    0m0.253s
+user    0m0.013s
+sys     0m0.003s
+
+OMP:
+real    0m0.280s
+user    0m0.260s
+sys     0m0.024s
+
+
+However, this seems to change when analyzing larger matrices as shown below.
+In the case of 250 x 250 x 250:
+Non-OMP: 
+real    0m0.325s
+user    0m0.351s
+sys     0m0.007s
+
+OMP:
+real    0m0.312s
+user    0m0.359s
+sys     0m0.004s
+
+In the case of 500 x 500 x 500:
+Non-OMP: 
+real    0m0.671s
+user    0m0.429s
+sys     0m0.006s
+
+OMP:
+real    0m0.564s
+user    0m0.670s
+sys     0m0.030s
+
+In the case of 1000 x 1000 x 1000:
+Non-OMP: 
+real    0m2.674s
+user    0m2.387s
+sys     0m0.031s
+
+OMP:
+real    0m1.685s
+user    0m2.719s
+sys     0m0.047s
+
+In the case of 2000 x 2000 x 2000:
+Non-OMP: 
+real    0m38.023s
+user    0m37.541s
+sys     0m0.086s
+
+OMP:
+real    0m14.597s
+user    0m43.651s
+sys     0m0.152s
+
+In the case of 5000 x 5000 x 5000:
+Non-OMP: 
+real    14m18.426s
+user    14m13.980s
+sys     0m1.349s
+
+OMP:
+real    4m12.779s
+user    15m9.459s
+sys     0m2.864s
+
+
+We know that User is, essentially, the amount of CPU time spent in user-mode code (outside the kernel) within the process i.e., the only actual CPU time used in executing the process. Whereas, Sys is the CPU time spent in system calls within the kernel. Therefore, User+Sys will tell you how much actual CPU time your process used. For my code, the user+sys time (CPU runtime) was always greater for the OpenMp code compared to when not using OpenMP. However, the real time for the execution of the OpenMP code was faster than the non-OpenMP code for larger matrices as shown above. This difference continued to increase as the matrices got larger. At the largest test size of multiplying one 5000 by 5000 matrix to another, the Non-OpenMP had a user+sys time of 14m 15.329s and real time of 14m 18.426s, while the OpenMP had a larger user+sys time of 15m 12.323s and a much smaller real time of only 4m 12.779s. Thus, with a pair of larger matrices, particulary matrices with dimension greater than 100 x 100, the OpenMP performed better on the user end and significantly reduced real time compared to the non-OpenMP.
+
+As a side note, it is important to note that user+sys time or the actual CPU time your process used is across all CPUs, so if the process has multiple threads as in our case (and this process is running on a computer with more than one processor) it could potentially exceed the wall clock time reported by Real (which usually occurs).
